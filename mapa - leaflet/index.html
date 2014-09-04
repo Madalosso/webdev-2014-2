@@ -2,28 +2,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet Quick Start Guide Example</title>
+	<title>Projetinho tenebroso</title>
 	<meta charset="utf-8" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" href="leaflet.css" />
-</head>
-<body>
-	<div id="map" style="width: 850px; height: 800px"></div>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
 
 	<script src="leaflet.js"></script>
-	<script>
-		var paradasLista = [];
-		var coordenada = [-29.71901, -53.71332];
-		paradasLista.push(coordenada);
-		//coordenada = [-29.71815, -53.71523];
-		paradasLista.push([-29.71815, -53.71523]);
-		paradasLista.push([-29.71342, -53.71608]);
-		paradasLista.push([-29.70768, -53.71621]);
+	<script src="main.js"></script>
+</head>
+<body>
+	<div id="header">
+	</div>
 
+	<div id="menu-left">
+	</div>
+
+	<div id="contain">
+		<div id="map"></div>
+	</div>
+
+
+	<div id="footer">
+	</div>
+
+
+
+
+
+	<script>
+		var linhaParadas = [];
+		linhaParadas.push(L.latLng(-29.71815, -53.71523));
+		linhaParadas.push(L.latLng(-29.71342, -53.71608));
+		linhaParadas.push(L.latLng(-29.70768, -53.71621));
+
+		//var polylines = L.polyline([L.latlng(-29.71342, -53.71608),L.latlng(-29.71815, -53.71523)],{color:'red'}).addTo(map);
 		var map = L.map('map').setView([-29.70686, -53.72052], 14);//set coordenadas e zoom
-//19/-29.70695/-53.72098
+		
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 18,
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -32,12 +50,16 @@
 			id: 'examples.map-i86knfo3'
 		}).addTo(map);
 
+		var polyline = L.polyline(linhaParadas, {color: 'red'}).addTo(map);
+
 		L.marker([-29.70686, -53.72052]).addTo(map)
 			.bindPopup("<b>CASA</b><br />").openPopup();
 
-		for(var i=0 ; i < paradasLista.length ; i++){
-			L.marker(paradasLista[i]).addTo(map);
+
+		for(var i=0 ; i < linhaParadas.length ; i++){
+			L.marker(linhaParadas[i]).addTo(map);
 		}
+
 
 		var popup = L.popup();
 
@@ -49,6 +71,8 @@
 		}
 
 		map.on('click', onMapClick);
+
+		var distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
 
 	</script>
 </body>
