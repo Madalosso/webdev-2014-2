@@ -4,15 +4,9 @@
 <head>
 	<title>WEB Dev 2014/2</title>
 	<meta charset="utf-8" />
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<link rel="stylesheet" type="text/css" href="style.css">
-
-	<script src="jquery-1.11.0.min.js"></script>
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9owNUTqrxUPa4RaV0ycQYrAslGWSMPbo&sensor=false"></script>
-
-
 	<script>
 		var map,dialog;
 		var markTemp,markOrigem,markDestino;
@@ -56,7 +50,7 @@
 			geocoder.geocode({'latLng':posTemp}, function(results, status){
 				if(status == google.maps.GeocoderStatus.OK){
 					if(results[1]){
-						map.setZoom(15);
+						map.setZoom(16);
 						console.log("Endereco origem: "+results[1]);
 						console.log(results[1]);
 					}
@@ -78,7 +72,7 @@
 			geocoder.geocode({'latLng':posTemp}, function(results, status){
 				if(status == google.maps.GeocoderStatus.OK){
 					if(results[1]){
-						map.setZoom(15);
+						map.setZoom(16);
 						console.log("Endereco Destino: "+results[1]);
 						console.log(results[1]);
 					}
@@ -111,7 +105,6 @@
 				}
 			});*/
 		}
-
 		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 
