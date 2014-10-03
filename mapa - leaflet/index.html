@@ -117,35 +117,9 @@
 
 
 		function findRota(){
-			
-			//console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
-			var indexParadaProxima =-1;
-			var distanciaParadaProxima=9999;
-			//descobre menor distancia até uma parada
-			for(var i =0; i<marcadoresBombeiros.length;i++){
-				var dist = 9999;
-				var start =  markOrigem.getPosition();
-				var end = marcadoresBombeiros[i].getPosition();
-				var request={
-					origin:start,
-					destination:end,
-					travelMode: google.maps.TravelMode.WALKING
-				};
-				directionsService.route(request, function(result, status) {
-				    if (status == google.maps.DirectionsStatus.OK) {
-				      directionsDisplay.setDirections(result);
-				      dist = result.routes[0].legs[0].distance.text;
-				    }
-		  		});
-				console.log(dist);
-				if(dist<distanciaParadaProxima){
-					distanciaParadaProxima=dist;
-					indexParadaProxima=i;
-				}
-			}
 			var start =  markOrigem.getPosition();
-			console.log(indexParadaProxima);
-			var end = marcadoresBombeiros[indexParadaProxima].getPosition();
+			var end = markDestino.getPosition();
+			directionsDisplay.setMap(map);
 			var request={
 				origin:start,
 				destination:end,
@@ -154,9 +128,22 @@
 			directionsService.route(request, function(result, status) {
 			    if (status == google.maps.DirectionsStatus.OK) {
 			      directionsDisplay.setDirections(result);
+			      console.log(result.routes[0].legs[0].distance.text);
 			    }
 	  		});
-
+			//console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
+			var indexParadaProxima =-1;
+			var distanciaParadaProxima=9999;
+			for(var i =0; i<marcadoresBombeiros.length;i++){
+				var dist = distance(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),marcadoresBombeiros[i].getPosition().lat(),marcadoresBombeiros[i].getPosition().lng(),'k');
+				if(dist<distanciaParadaProxima){
+					distanciaParadaProxima=dist;
+					indexParadaProxima=i;
+				}
+			}
+			if(indexParadaProxima==-1){
+				console.log("ERRO PARADA PROXIMA");
+			}
 			console.log("vá para a parada index: "+ indexParadaProxima + "  distancia: "+distanciaParadaProxima);
 			var distanciaParadaDestino=9999;
 			var indexParadaDestino=-1;
@@ -169,7 +156,6 @@
 				}
 			}
 			console.log("embarque e pare na parada "+ indexParadaDestino + "você estará a "+distanciaParadaDestino+ "kilometros do seu destino final");
-
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>

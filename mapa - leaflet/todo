@@ -9,8 +9,6 @@ criar Array de rotas de bus
 		-sentido
 		-Array<horários>
 
-verificar as distancias com o gmaps necessita de uma espera para retorno da distancia.
-
 --MELHORIAS:
 metodo de achar parada
 	atual: procura na lista das paradas pela mais próxima.
