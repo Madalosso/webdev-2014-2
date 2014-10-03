@@ -53,6 +53,16 @@
 	width: 100%;
 }
 
+#instrucoes{
+	border-style: dashed;
+	border-color: black;
+	border-width: 1px;
+	margin-left:40px;
+	margin-top:10px;
+	width: 80%;
+	height: 30%;
+}
+
 .formul{
 	padding-left: 50px;
 }

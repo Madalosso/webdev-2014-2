@@ -5,7 +5,7 @@ trocar todos os cálculos de distância para que usem a interface do gmaps.
 criar Array de rotas de bus
 	-criar classe para representar uma linha de bus
 		-nome da linha
-		-Array<paradas> -> Array<directionsWaypoints>?
+		-Array<paradas> -> Array<directionsWaypoints>? //VERSAO FREE SUPORTA APENAS 8 WAYPOINTS!
 		-sentido
 		-Array<horários>
 
