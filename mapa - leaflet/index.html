@@ -7,11 +7,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9owNUTqrxUPa4RaV0ycQYrAslGWSMPbo&sensor=false"></script>
+	<script src="main.js" type="text/javascript"></script>
 	<script>
 		var map,dialog;
 		var markTemp,markOrigem,markDestino;
 		var posTemp;
 		var geocoder;
+		var directionsService = new google.maps.DirectionsService();
+		var directionsDisplay = new google.maps.DirectionsRenderer();
 		function initialize()
 		{
 			geocoder = new google.maps.Geocoder();
@@ -21,14 +24,8 @@
 			  zoom:16,
 			  mapTypeId:google.maps.MapTypeId.ROADMAP
 			  };
-			map=new google.maps.Map(document.getElementById("googleMap")
-			  ,mapProp);
-			var markHouse = new google.maps.Marker({
-				position:posHouse,
-			});
-			markHouse.setMap(map);
-
-			  google.maps.event.addListener(map, 'click', function(event) {
+			map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+			google.maps.event.addListener(map, 'click', function(event) {
 			    addDialog(event.latLng);
 			  });
 
@@ -46,7 +43,6 @@
 			markOrigem.setMap(map);
 			dialog.close();
 
-
 			geocoder.geocode({'latLng':posTemp}, function(results, status){
 				if(status == google.maps.GeocoderStatus.OK){
 					if(results[1]){
@@ -59,7 +55,6 @@
 		}
 
 		function setDestino(){
-
 			if(markDestino==null){
 				markDestino= new google.maps.Marker({position:posTemp,});
 			}else{
@@ -81,6 +76,7 @@
 		}
 
 		function addDialog(pos){
+			console.log(pos);
 			if(markTemp==null){
 				markTemp= new google.maps.Marker({position:pos,});
 			}else{
@@ -93,17 +89,19 @@
 		}
 
 		function findRota(){
-			console.log("call calcular rota");
-			/*var latlnt = markOrigem.getPosition();
-			console.log(latlnt);
-			geocoder.geocode({'latLng':latlnt}, function(results, status){
-				if(status == google.maps.GeocoderStatus.OK){
-					if(results[1]){
-						map.setZoom(15);
-						console.log(results[1]);
-					}
-				}
-			});*/
+			var start =  markOrigem.getPosition();
+			var end = markDestino.getPosition();
+			directionsDisplay.setMap(map);
+			var request={
+				origin:start,
+				destination:end,
+				travelMode: google.maps.TravelMode.WALKING
+			};
+			directionsService.route(request, function(result, status) {
+			    if (status == google.maps.DirectionsStatus.OK) {
+			      directionsDisplay.setDirections(result);
+			    }
+	  		});
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>

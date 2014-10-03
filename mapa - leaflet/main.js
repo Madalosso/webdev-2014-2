@@ -25,7 +25,105 @@
 //:::               GeoDataSource.com (C) All Rights Reserved 2014            :::
 //:::                                                                         :::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+/*
+var map,dialog;
+var markTemp,markOrigem,markDestino;
+var posTemp;
+var geocoder;
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer();
+function initialize(){
+	geocoder = new google.maps.Geocoder();
+	var posHouse = new google.maps.LatLng(-29.706822, -53.720390);
+	var mapProp = {
+	  center:new google.maps.LatLng(-29.706822, -53.720390),
+	  zoom:16,
+	  mapTypeId:google.maps.MapTypeId.ROADMAP
+	  };
+	map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	google.maps.event.addListener(map, 'click', function(event) {
+	    addDialog(event.latLng);
+	  });
 
+	  dialog = new google.maps.InfoWindow({
+	    content:"<button id='btSource' onClick='setOrigem()'>Set Origin</button><button id='btDestino' onClick='setDestino()'>Set Destiny</button>"
+	  });
+}
+
+function setOrigem(){
+	if(markOrigem==null){
+		markOrigem= new google.maps.Marker({position:posTemp,});
+	}else{
+		markOrigem.setPosition(posTemp);
+	}
+	markOrigem.setMap(map);
+	dialog.close();
+
+	geocoder.geocode({'latLng':posTemp}, function(results, status){
+		if(status == google.maps.GeocoderStatus.OK){
+			if(results[1]){
+				map.setZoom(16);
+				console.log("Endereco origem: "+results[1]);
+				console.log(results[1]);
+			}
+		}
+	});
+}
+
+function setDestino(){
+	if(markDestino==null){
+		markDestino= new google.maps.Marker({position:posTemp,});
+	}else{
+		markDestino.setPosition(posTemp);
+	}
+	markDestino.setMap(map);
+	dialog.close();
+
+
+	geocoder.geocode({'latLng':posTemp}, function(results, status){
+		if(status == google.maps.GeocoderStatus.OK){
+			if(results[1]){
+				map.setZoom(16);
+				console.log("Endereco Destino: "+results[1]);
+				console.log(results[1]);
+			}
+		}
+	});
+}
+
+function addDialog(pos){
+	console.log(pos);
+	if(markTemp==null){
+		markTemp= new google.maps.Marker({position:pos,});
+	}else{
+		markTemp.setPosition(pos);
+	}
+	dialog.open(map,markTemp);
+	markTemp.setMap(map);
+	posTemp = pos;
+	console.log("position: "+posTemp);
+}
+
+function findRota(){
+	var start =  markOrigem.getPosition();
+	var end = markDestino.getPosition();
+	directionsDisplay.setMap(map);
+	var request={
+		origin:start,
+		destination:end,
+		travelMode: google.maps.TravelMode.WALKING
+	};
+	directionsService.route(request, function(result, status) {
+	    if (status == google.maps.DirectionsStatus.OK) {
+	      directionsDisplay.setDirections(result);
+	    }
+		});
+}                                                                 
+window.addEvent('load',function(){
+	google.maps.event.addDomListener(window, 'load', initialize);
+});
+
+*/
 function distance(lat1, lon1, lat2, lon2, unit) {
 	var radlat1 = Math.PI * lat1/180
 	var radlat2 = Math.PI * lat2/180
@@ -40,4 +138,4 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 	if (unit=="K") { dist = dist * 1.609344 }
 	if (unit=="N") { dist = dist * 0.8684 }
 	return dist
-}                                                                           
+}          

@@ -18,6 +18,11 @@
 	top:15%;
 	left:0px;
 	position: absolute;
+	border-right-style: solid;
+	border-right-width: 5px;
+	border-right-color: #D1D1D1;
+	box-shadow:  0px 2px 5px #757575;
+	z-index: 48;
 }
 
 #contain{
@@ -39,6 +44,7 @@
     border-top-style: solid;
     border-top-color: #D1D1D1;
     box-shadow: 0px -2px 5px #757575;
+    z-index: 49;
 }
 
 #map{
