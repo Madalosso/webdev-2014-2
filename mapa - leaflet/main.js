@@ -124,6 +124,11 @@ window.addEvent('load',function(){
 });
 
 */
+function inCircle(center_x, center_y, radius, x, y){
+    dist = Math.sqrt((center_x - x) *(center_x - x) + (center_y - y) *(center_y - y));
+    return dist; /*dist <= radius*/
+}
+
 function distance(lat1, lon1, lat2, lon2, unit) {
 	var radlat1 = Math.PI * lat1/180
 	var radlat2 = Math.PI * lat2/180

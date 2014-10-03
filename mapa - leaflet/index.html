@@ -15,6 +15,9 @@
 		var geocoder;
 		var directionsService = new google.maps.DirectionsService();
 		var directionsDisplay = new google.maps.DirectionsRenderer();
+		var bombeiros = [];
+	  	var marcadoresBombeiros=[];
+
 		function initialize()
 		{
 			geocoder = new google.maps.Geocoder();
@@ -32,6 +35,29 @@
 			  dialog = new google.maps.InfoWindow({
 			    content:"<button id='btSource' onClick='setOrigem()'>Set Origin</button><button id='btDestino' onClick='setDestino()'>Set Destiny</button>"
 			  });
+
+			  //adiciona lista de coordenadas aonde existem paradas
+			  bombeiros.push(new google.maps.LatLng(-29.71908619710958, -53.71457862860552));
+			  bombeiros.push(new google.maps.LatLng(-29.713552301601425, -53.716012001168565));
+			  bombeiros.push(new google.maps.LatLng(-29.708669473569465, -53.716269493233995));
+			  bombeiros.push(new google.maps.LatLng(-29.707141211427654, -53.71609783185704));
+			  bombeiros.push(new google.maps.LatLng(-29.70524016996289, -53.71785736097081));
+			  console.log(bombeiros.length);
+			  //cria marcadores para as paradas existentes 
+			  for(var i =0; i< bombeiros.length;i++){
+			  	console.log(i);
+			  	marcadoresBombeiros.push(new google.maps.Marker({position:bombeiros[i]}));
+			  	marcadoresBombeiros[i].setMap(map);
+			  }
+			  //desenha linha entre as paradas (precisa alterar para que sigam o caminho correto)
+			  var linhas = new google.maps.Polyline({
+			  	path:bombeiros,
+				geodesic:true,
+				strokeColor: '#FF0000',
+			    strokeOpacity: 1.0,
+			    strokeWeight: 2
+			  });
+			  linhas.setMap(map);
 		}
 
 		function setOrigem(){
@@ -88,6 +114,8 @@
 			console.log("position: "+posTemp);
 		}
 
+
+
 		function findRota(){
 			var start =  markOrigem.getPosition();
 			var end = markDestino.getPosition();
@@ -100,8 +128,11 @@
 			directionsService.route(request, function(result, status) {
 			    if (status == google.maps.DirectionsStatus.OK) {
 			      directionsDisplay.setDirections(result);
+			      console.log(result.routes[0].legs[0].distance.text);
 			    }
 	  		});
+			console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
+			console.log("distancia: "+ distance(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng(),'k'));
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
