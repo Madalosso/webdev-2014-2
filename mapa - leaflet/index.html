@@ -153,8 +153,8 @@
 
 			
 
-			console.log("Vá para a parada index: "+ indexParadaProxima + "  distancia: "+distanciaParadaProxima);
-			displayInstruct("Vá para a parada index: "+ indexParadaProxima + "  distancia: "+distanciaParadaProxima.toFixed(2));
+			console.log("Vá para a parada index: "+ indexParadaProxima + ".Distancia= "+distanciaParadaProxima);
+			displayInstruct("Vá para a parada "+ indexParadaProxima + ".Distancia= "+distanciaParadaProxima.toFixed(2));
 			var distanciaParadaDestino=9999;
 			var indexParadaDestino=-1;
 			for(var i = 0 ; i < marcadoresBombeiros.length ; i++){
@@ -174,7 +174,7 @@
 			directionsDisplay.setMap(map);
 			var pontos = [];
 			pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
-			for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ; i++){
+			for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
 				pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
 			}
 			var request={
