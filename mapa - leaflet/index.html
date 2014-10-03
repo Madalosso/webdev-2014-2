@@ -117,20 +117,7 @@
 
 
 		function findRota(){
-			var start =  markOrigem.getPosition();
-			var end = markDestino.getPosition();
-			directionsDisplay.setMap(map);
-			var request={
-				origin:start,
-				destination:end,
-				travelMode: google.maps.TravelMode.WALKING
-			};
-			directionsService.route(request, function(result, status) {
-			    if (status == google.maps.DirectionsStatus.OK) {
-			      directionsDisplay.setDirections(result);
-			      console.log(result.routes[0].legs[0].distance.text);
-			    }
-	  		});
+			
 			//console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
 			var indexParadaProxima =-1;
 			var distanciaParadaProxima=9999;
@@ -144,6 +131,9 @@
 			if(indexParadaProxima==-1){
 				console.log("ERRO PARADA PROXIMA");
 			}
+
+			
+
 			console.log("vá para a parada index: "+ indexParadaProxima + "  distancia: "+distanciaParadaProxima);
 			var distanciaParadaDestino=9999;
 			var indexParadaDestino=-1;
@@ -156,6 +146,28 @@
 				}
 			}
 			console.log("embarque e pare na parada "+ indexParadaDestino + "você estará a "+distanciaParadaDestino+ "kilometros do seu destino final");
+
+			//desenha no mapa
+			var start =  markOrigem.getPosition();
+			var end = markDestino.getPosition();
+			directionsDisplay.setMap(map);
+			var pontos = [];
+			pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
+			for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ; i++){
+				pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
+			}
+			var request={
+				origin:start,
+				destination:end,
+				travelMode: google.maps.TravelMode.DRIVING,
+				waypoints: pontos
+			};
+			directionsService.route(request, function(result, status) {
+			    if (status == google.maps.DirectionsStatus.OK) {
+			      directionsDisplay.setDirections(result);
+			      console.log(result.routes[0].legs[0].distance.text);
+			    }
+	  		});
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
