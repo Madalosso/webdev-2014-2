@@ -1,5 +1,19 @@
-TODO:
+--METAS:
 trocar todos os cálculos de distância para que usem a interface do gmaps.
 	-isso vai fazer com que a distancia das ruas a serem percorridas seja contabilizado, não apenas a distância georgráfica.
+
 criar Array de rotas de bus
 	-criar classe para representar uma linha de bus
+		-nome da linha
+		-Array<paradas>
+		-sentido
+		-Array<horários>
+
+--MELHORIAS:
+metodo de achar parada
+	atual: procura na lista das paradas pela mais próxima.
+	objetivo: procura ao redor do ponto de origem por paradas mais próximas, quando encontrar uma, verifica as linhas que passam por ela e qual o pontos mais próximo do destino.
+		-caso não encontre uma solução boa na primeira parada, continuar ampliando o raio de busca para procurar outras paradas que façam parte de outras linhas.
+
+reponsividade
+	-utilizar o bootstrap ou foundation?
