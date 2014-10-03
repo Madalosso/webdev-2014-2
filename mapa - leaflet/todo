@@ -1,0 +1,5 @@
+TODO:
+trocar todos os cálculos de distância para que usem a interface do gmaps.
+	-isso vai fazer com que a distancia das ruas a serem percorridas seja contabilizado, não apenas a distância georgráfica.
+criar Array de rotas de bus
+	-criar classe para representar uma linha de bus
