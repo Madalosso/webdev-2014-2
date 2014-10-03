@@ -1,106 +1,115 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Projetinho tenebroso</title>
-	<meta charset="utf-8" />
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="leaflet.css" />
-	<link rel="stylesheet" type="text/css" href="style.css">
-
-
-	<script src="leaflet.js"></script>
-	<script src="jquery-1.11.0.min.js"></script>
-	<script src="main.js"></script>
-</head>
-<body>
-	<div id="header">
-	</div>
-
-	<div id="menu-left">
-		<div>
-			<form>
-				Endereço Origem: <input type="text" id="endereco_start" name="origem"><br>
-				Endereço Destino: <input type="text" id="endereco_finish" name="destino"><br>
-			</form>
-		</div>
-	</div>
-
-	<div id="contain">
-		<div id="map"></div>
-	</div>
-
-
-	<div id="footer">
-	</div>
-
-
-
-
-
-	<script>
-
-		var linhaParadas = [];
-		linhaParadas.push(L.latLng(-29.71815, -53.71523));
-		linhaParadas.push(L.latLng(-29.71342, -53.71608));
-		linhaParadas.push(L.latLng(-29.70768, -53.71621));
-
-		var map = L.map('map').setView([-29.70686, -53.72052], 15);//set coordenadas e zoom
+	<head>
+		<title>EasyBus</title>
 		
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'examples.map-i875mjb7'
-		}).addTo(map);
+		<meta charset="UTF-8">
 
-		var polyline = L.polyline(linhaParadas, {color: 'red'}).addTo(map);
+		<link rel="stylesheet" href="leaflet.css">
+		<link rel="stylesheet" href="style.css">
 
-		for(var i=0 ; i < linhaParadas.length ; i++){
-			L.marker(linhaParadas[i]).addTo(map);
-		}
 
-		var popup = L.popup();
-		var PopUppoint =L.popup();
-		var latlng;
-		var markerStart=false;
-		var markerFinish=false;
+		<script src="leaflet.js"></script>
+		<script src="jquery-1.11.0.min.js"></script>
+		<script src="main.js"></script>
+	</head>
 
-		function onMapClick(e) {
-			PopUppoint
-				.setLatLng(e.latlng)
-				.setContent('<button onclick="defineStart()" id="pntStart" >Definir ponto inicial</button><button onclick="defineStop()" id="pntStop" >Definir ponto final</button>')
-				.addTo(map);
-			latlng=e.latlng;
-		}
+	<body>
 
-		function defineStart(){
-			document.getElementById("endereco_start").value=latlng.lat+" "+latlng.lng;
-			PopUppoint._close();
-			if(!markerStart){
-				markerStart = L.marker(latlng).addTo(map);
-			}else{
-				markerStart.setLatLng(latlng).update();
+		<header class="mainHeader">
+			<img src="images/easybus.png">
+			
+			<nav><ul>
+				<li class="active"> <a href="index.html"><b>Início</b></a></li>
+				<li><a href="contato.html"><b>Contato</b></a></li>
+			</ul></nav>
+		
+		</header>
+
+		<div class="conteudo">
+			<div class="content">
+				<article>
+					<b>Endereço de Origem: <input type="text" id="endereco_start" name="origem"><br>
+					Endereço de Destino:</b> <input type="text" id="endereco_finish" name="destino"><br>
+					<br>
+					<input class="button" value="Calcular rota" type="submit"/>
+				</article>
+			</div>
+
+			<div id="map"></div>
+		
+		</div>
+		
+		<footer>
+			<p>Copyright &copy; 2014 <a href="index.html">EasyBus</a> v1.0</p>
+		</footer>
+
+
+
+
+		<script>
+
+			var linhaParadas = [];
+			linhaParadas.push(L.latLng(-29.71815, -53.71523));
+			linhaParadas.push(L.latLng(-29.71342, -53.71608));
+			linhaParadas.push(L.latLng(-29.70768, -53.71621));
+
+			var map = L.map('map').setView([-29.70686, -53.72052], 15);//set coordenadas e zoom
+			
+			L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+				maxZoom: 18,
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				id: 'examples.map-i875mjb7'
+			}).addTo(map);
+
+			var polyline = L.polyline(linhaParadas, {color: 'red'}).addTo(map);
+
+			for(var i=0 ; i < linhaParadas.length ; i++){
+				L.marker(linhaParadas[i]).addTo(map);
 			}
-		}
 
-		function defineStop(){
-			document.getElementById("endereco_finish").value=latlng.lat+" "+latlng.lng;
-			PopUppoint._close();
-			if(!markerFinish){
-				markerFinish = L.marker(latlng).addTo(map);
-			}else{
-				markerFinish.setLatLng(latlng).update();
+			var popup = L.popup();
+			var PopUppoint =L.popup();
+			var latlng;
+			var markerStart=false;
+			var markerFinish=false;
+
+			function onMapClick(e) {
+				PopUppoint
+					.setLatLng(e.latlng)
+					.setContent('<button onclick="defineStart()" id="pntStart" >Definir ponto inicial</button><button onclick="defineStop()" id="pntStop" >Definir ponto final</button>')
+					.addTo(map);
+				latlng=e.latlng;
 			}
-			//console.log(distance(markerFinish.getLatLng(),markerStart.getLatLng(),"K"));
-			//distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
-		}
-		map.on('click', onMapClick);
 
-		//var distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
-	</script>
-</body>
+			function defineStart(){
+				document.getElementById("endereco_start").value=latlng.lat+" "+latlng.lng;
+				PopUppoint._close();
+				if(!markerStart){
+					markerStart = L.marker(latlng).addTo(map);
+				}else{
+					markerStart.setLatLng(latlng).update();
+				}
+			}
+
+			function defineStop(){
+				document.getElementById("endereco_finish").value=latlng.lat+" "+latlng.lng;
+				PopUppoint._close();
+				if(!markerFinish){
+					markerFinish = L.marker(latlng).addTo(map);
+				}else{
+					markerFinish.setLatLng(latlng).update();
+				}
+				//console.log(distance(markerFinish.getLatLng(),markerStart.getLatLng(),"K"));
+				//distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
+			}
+			map.on('click', onMapClick);
+
+			//var distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
+		</script>
+	</body>
 </html>
