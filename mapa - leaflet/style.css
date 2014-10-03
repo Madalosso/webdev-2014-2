@@ -51,21 +51,12 @@ footer{
 	text-align: center;
 }
 
-article{
-	background-color: #EED8AE;
-	border-radius: 0px;
-	-moz-border-radius: 0px;
-	-webkit-border-radius: 0px;
-	-o-border-radius: 0px;
-	padding: 3% 5%;
-}
-
 #map{
 	height: 75%;
 	width: 80%;
 	top: 0%;
 	right: 0%;
-	background-color: #483D8B;
+	background-color: #FFFFFF;
 	position: absolute;
 }
 
@@ -129,10 +120,12 @@ article{
 	background-color: #EED8AE;
 	position: absolute;
 }
+
 .content{
 	width: 20%;
 	background-color: #EED8AE;
 	color: #FFFFFF;
+	padding: 2% 2%;
 }
 
 .button{
