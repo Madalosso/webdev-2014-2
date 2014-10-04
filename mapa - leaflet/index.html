@@ -13,11 +13,12 @@
 		var markTemp,markOrigem,markDestino;
 		var posTemp;
 		var geocoder;
-		var directionsService = new google.maps.DirectionsService();
-		var directionsDisplay = new google.maps.DirectionsRenderer();
+		var directionsServiceStart = new google.maps.DirectionsService();
+		var directionsDisplayStart = new google.maps.DirectionsRenderer();
+		var directionsServiceEnd = new google.maps.DirectionsService();
+		var directionsDisplayEnd = new google.maps.DirectionsRenderer();
 		var bombeiros = [];
 	  	var marcadoresBombeiros=[];
-
 		function initialize()
 		{
 			geocoder = new google.maps.Geocoder();
@@ -36,44 +37,44 @@
 			    content:"<button id='btSource' onClick='setOrigem()'>Set Origin</button><button id='btDestino' onClick='setDestino()'>Set Destiny</button>"
 			  });
 
-			  //adiciona lista de coordenadas aonde existem paradas
-			  bombeiros.push(new google.maps.LatLng(-29.71908619710958, -53.71457862860552));
-			  bombeiros.push(new google.maps.LatLng(-29.713552301601425, -53.716012001168565));
-			  bombeiros.push(new google.maps.LatLng(-29.708669473569465, -53.716269493233995));
-			  bombeiros.push(new google.maps.LatLng(-29.707141211427654, -53.71609783185704));
-			  bombeiros.push(new google.maps.LatLng(-29.70524016996289, -53.71785736097081));
-			  bombeiros.push(new google.maps.LatLng(-29.705034222155668, -53.720243454044976));
-			  bombeiros.push(new google.maps.LatLng(-29.70516398824113, -53.722172498719374));
-			  bombeiros.push(new google.maps.LatLng(-29.705238539621313, -53.72470986836561));
-			  bombeiros.push(new google.maps.LatLng(-29.70561595513418, -53.73440873649088));
-			  bombeiros.push(new google.maps.LatLng(-29.705984050379243, -53.739435196184786));
-			  bombeiros.push(new google.maps.LatLng(-29.706804804771583, -53.74369669065345));
-			  bombeiros.push(new google.maps.LatLng(-29.70736392963848, -53.74929714307655));
-			  bombeiros.push(new google.maps.LatLng(-29.70769940306431, -53.75536966428626));
-			  bombeiros.push(new google.maps.LatLng(-29.707755315192994, -53.75811624631751));
-			  bombeiros.push(new google.maps.LatLng(-29.707811227290534, -53.763308997731656));
-			  bombeiros.push(new google.maps.LatLng(-29.69001097068666, -53.80167531548068));
-			  bombeiros.push(new google.maps.LatLng(-29.689936408005256, -53.80459355888888));
-			  bombeiros.push(new google.maps.LatLng(-29.69159541458755, -53.807790752034634));
-			  bombeiros.push(new google.maps.LatLng(-29.687009779059686, -53.81017255363986));
-			  bombeiros.push(new google.maps.LatLng(-29.687457167346825, -53.812511439900845));
-			  bombeiros.push(new google.maps.LatLng(-29.688649726991226, -53.81576442508958));
-			  console.log(bombeiros.length);
-			  //cria marcadores para as paradas existentes 
-			  for(var i =0; i< bombeiros.length;i++){
-			  	console.log(i);
+		  //adiciona lista de coordenadas aonde existem paradas
+			bombeiros.push(new google.maps.LatLng(-29.71908619710958, -53.71457862860552));
+			bombeiros.push(new google.maps.LatLng(-29.713552301601425, -53.716012001168565));
+			bombeiros.push(new google.maps.LatLng(-29.708669473569465, -53.716269493233995));
+			bombeiros.push(new google.maps.LatLng(-29.707141211427654, -53.71609783185704));
+			bombeiros.push(new google.maps.LatLng(-29.70524016996289, -53.71785736097081));
+			bombeiros.push(new google.maps.LatLng(-29.705034222155668, -53.720243454044976));
+			bombeiros.push(new google.maps.LatLng(-29.70516398824113, -53.722172498719374));
+			bombeiros.push(new google.maps.LatLng(-29.705238539621313, -53.72470986836561));
+			bombeiros.push(new google.maps.LatLng(-29.70561595513418, -53.73440873649088));
+			bombeiros.push(new google.maps.LatLng(-29.705984050379243, -53.739435196184786));
+			bombeiros.push(new google.maps.LatLng(-29.706804804771583, -53.74369669065345));
+			bombeiros.push(new google.maps.LatLng(-29.70736392963848, -53.74929714307655));
+			bombeiros.push(new google.maps.LatLng(-29.70769940306431, -53.75536966428626));
+			bombeiros.push(new google.maps.LatLng(-29.707755315192994, -53.75811624631751));
+			bombeiros.push(new google.maps.LatLng(-29.707811227290534, -53.763308997731656));
+			bombeiros.push(new google.maps.LatLng(-29.69001097068666, -53.80167531548068));
+			bombeiros.push(new google.maps.LatLng(-29.689936408005256, -53.80459355888888));
+			bombeiros.push(new google.maps.LatLng(-29.69159541458755, -53.807790752034634));
+			bombeiros.push(new google.maps.LatLng(-29.687009779059686, -53.81017255363986));
+			bombeiros.push(new google.maps.LatLng(-29.687457167346825, -53.812511439900845));
+			bombeiros.push(new google.maps.LatLng(-29.688649726991226, -53.81576442508958));
+			console.log(bombeiros.length);
+
+			//cria marcadores para as paradas existentes 
+			for(var i =0; i< bombeiros.length;i++){
 			  	marcadoresBombeiros.push(new google.maps.Marker({position:bombeiros[i]}));
-			  	marcadoresBombeiros[i].setMap(map);
-			  }
+				marcadoresBombeiros[i].setMap(map);
+			}
 			  //desenha linha entre as paradas (precisa alterar para que sigam o caminho correto)
-			  var linhas = new google.maps.Polyline({
+			  /*var linhas = new google.maps.Polyline({
 			  	path:bombeiros,
 				geodesic:true,
 				strokeColor: '#FF0000',
 			    strokeOpacity: 1.0,
 			    strokeWeight: 2
 			  });
-			  linhas.setMap(map);
+			  linhas.setMap(map);*/
 		}
 
 		function setOrigem(){
@@ -169,29 +170,53 @@
 			displayInstruct("Embarque e pare na parada "+ indexParadaDestino + " você estará a "+distanciaParadaDestino.toFixed(2)+ " kilometros do seu destino final");
 
 			//desenha no mapa
+
 			var start =  markOrigem.getPosition();
 			var end = markDestino.getPosition();
-			directionsDisplay.setMap(map);
-			var pontos = [];
-			pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
-			for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
+			//CHEGAR ATE A PARADA
+			directionsDisplayStart.setMap(map);
+			//var pontos = [];
+			//pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
+			/*for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
 				pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
-			}
+			}*/
+			//pontos.push({location:marcadoresBombeiros[indexParadaDestino].getPosition(),stopover:true});
 			var request={
 				origin:start,
-				destination:end,
-				travelMode: google.maps.TravelMode.DRIVING,
-				waypoints: pontos
+				destination:marcadoresBombeiros[indexParadaProxima].getPosition(),
+				travelMode: google.maps.TravelMode.DRIVING
 			};
-			directionsService.route(request, function(result, status) {
+			directionsServiceStart.route(request, function(result, status) {
 			    if (status == google.maps.DirectionsStatus.OK) {
-			      directionsDisplay.setDirections(result);
+			      directionsDisplayStart.setDirections(result);
 			      console.log(result.routes[0].legs[0].distance.text);
 			    }else{
 			    	console.log("ERROR REQUISITAR GMAPS: "+status);
 			    	displayInstruct("ERROR REQUISITAR GMAPS: "+status);
 			    }
 	  		});
+			//DA PARADA FINAL ATE O DESTINO FINAL
+			directionsDisplayEnd.setMap(map);
+			//pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
+			/*for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
+				pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
+			}*/
+			//pontos.push({location:marcadoresBombeiros[indexParadaDestino].getPosition(),stopover:true});
+			var request2={
+				origin:marcadoresBombeiros[indexParadaDestino].getPosition(),
+				destination:end,
+				travelMode: google.maps.TravelMode.DRIVING
+			};
+			directionsServiceEnd.route(request2, function(result, status) {
+			    if (status == google.maps.DirectionsStatus.OK) {
+			      directionsDisplayEnd.setDirections(result);
+			      console.log(result.routes[0].legs[0].distance.text);
+			    }else{
+			    	console.log("ERROR REQUISITAR GMAPS: "+status);
+			    	displayInstruct("ERROR REQUISITAR GMAPS: "+status);
+			    }
+	  		});
+
 	  		displayInstruct("--------------------");
 		}
 		google.maps.event.addDomListener(window, 'load', initialize);
@@ -205,6 +230,12 @@
 
 	<div id="menu-left">
 		<br><br>
+
+		<select>
+		  <option value="bombeiros">Bombeiros</option>
+		  <option value="ufsm">UFSM</option>
+		</select>
+
 		<div id="formulario">
 			<form>
 				<br>
