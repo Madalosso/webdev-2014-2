@@ -117,7 +117,6 @@
 				}
 			});
 		}
-
 		function addDialog(pos){
 			console.log(pos);
 			if(markTemp==null){
@@ -135,8 +134,20 @@
 			document.getElementById("text-inst").innerHTML += "<li> "+ txt+" <br>";
 		}
 
+		function findStop(pos){
+			console.log("TESTE "+pos);
+
+			var stopNear = [];
+			for(var i=0;i<bombeiros.length;i++){
+				if(distance(pos.lat(),pos.lng(),bombeiros[i].lat(),bombeiros[i].lng())<999){
+					console.log("Ta perto");
+				}
+			}
+		}
 		function findRota(){
-			
+			findStop(markOrigem.getPosition());
+
+
 			//console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
 			var indexParadaProxima =-1;
 			var distanciaParadaProxima=9999;
