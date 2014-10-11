@@ -25,6 +25,17 @@
 //:::               GeoDataSource.com (C) All Rights Reserved 2014            :::
 //:::                                                                         :::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+var map;
+var popup = L.popup();
+var PopUppoint =L.popup();
+var latlng;
+var markerStart=false;
+var markerFinish=false;
+
+var directionsServiceStart = new google.maps.DirectionsService();
+var directionsDisplayStart = new google.maps.DirectionsRenderer();
+var directionsServiceEnd = new google.maps.DirectionsService();
+var directionsDisplayEnd = new google.maps.DirectionsRenderer();
 
 function distance(lat1, lon1, lat2, lon2, unit) {
 	var radlat1 = Math.PI * lat1/180
@@ -107,6 +118,45 @@ function initialize(){
 
 
 }
+function findRota(){
+	console.log("teste");
+	//checar se o marcador foi definido ou não pelo usuario
+	var start = markerStart.getLatLng();
+	//directionsDisplayStart.setMap(map);
+	var request={
+				origin:start,
+				destination:"-29.71886265201572,-53.71382460926128",
+				travelMode: google.maps.TravelMode.DRIVING
+			};
+	directionsServiceStart.route(request, function(result, status) {
+	    if (status == google.maps.DirectionsStatus.OK) {
+	      directionsDisplayStart.setDirections(result);
+	      console.log(result.routes[0].legs[0].distance.text);
+	    }else{
+	    	console.log("ERROR REQUISITAR GMAPS: "+status);
+	    }
+	});
+}
+
+$("#calculaRota").click(function(){
+	findRota();
+});
+
 $(document).ready(function(){
+
+
+	map = L.map('map').setView([-29.70686, -53.72052], 15);//set coordenadas e zoom
+	
+	L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'examples.map-i875mjb7'
+	}).addTo(map);
+	
+
+	map.on('click', onMapClick);
+
 	initialize();
 });

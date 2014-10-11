@@ -2,87 +2,49 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<title>EasyBus</title>
-		<meta charset="UTF-8">
+<head>
+	<title>EasyBus</title>
+	<meta charset="UTF-8">
 
-		<!-- CSS -->
-		<link rel="stylesheet" href="leaflet.css">
-		<link rel="stylesheet" href="style.css">
+	<!-- CSS -->
+	<link rel="stylesheet" href="leaflet.css">
+	<link rel="stylesheet" href="style.css">
 
-		<!-- JAVASCRIPTS -->
-		<script src="leaflet.js"></script>
-		<script src="jquery-1.11.0.min.js"></script>
-		<script src="main.js"></script>
-		<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9owNUTqrxUPa4RaV0ycQYrAslGWSMPbo&sensor=false"></script>
-	</head>
+	<!-- JAVASCRIPTS -->
+	<script src="leaflet.js"></script>
+	<script src="jquery-1.11.0.min.js"></script>
+	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9owNUTqrxUPa4RaV0ycQYrAslGWSMPbo&sensor=false"></script>
+</head>
 
-	<body>
+<body>
 
-		<header class="mainHeader">
-			<img src="images/easybus.png">
-			
-			<nav><ul>
-				<li class="active"> <a href="index.html"><b>Home</b></a></li>
-				<li><a href="contato.html"><b>Contato</b></a></li>
-			</ul></nav>
+	<header class="mainHeader">
+		<img src="images/easybus.png">
 		
-		</header>
+		<nav><ul>
+			<li class="active"> <a href="index.html"><b>Home</b></a></li>
+			<li><a href="contato.html"><b>Contato</b></a></li>
+		</ul></nav>
+	
+	</header>
 
-		<div class="conteudo">
-			<div class="content">
-				<b>Endereço de Origem: <input type="text" id="endereco_start" name="origem"><br>
-				Endereço de Destino:</b> <input type="text" id="endereco_finish" name="destino"><br>
-				<br>
-				<input class="button" value="Calcular rota" type="submit"/>
-			</div>
-
-			<div id="map"></div>
-		
+	<div class="conteudo">
+		<div class="content">
+			<b>Endereço de Origem: <input type="text" id="endereco_start" name="origem"><br>
+			Endereço de Destino:</b> <input type="text" id="endereco_finish" name="destino"><br>
+			<br>
+			<input class="button" id="calculaRota" value="Calcular rota" type="submit"/>
 		</div>
-		
-		<footer>
-			<p>Copyright &copy; 2014 <a href="index.html">EasyBus</a> v1.0</p>
-		</footer>
 
+		<div id="map"></div>
+	
+	</div>
+	
+	<footer>
+		<p>Copyright &copy; 2014 <a href="index.html">EasyBus</a> v1.0</p>
+	</footer>
+	
+	<script src="main.js"></script>
 
-
-
-		<script>
-
-
-			var map = L.map('map').setView([-29.70686, -53.72052], 15);//set coordenadas e zoom
-			
-			L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-				maxZoom: 18,
-				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-				id: 'examples.map-i875mjb7'
-			}).addTo(map);
-/*			var linhaParadas = [];
-			linhaParadas.push(L.latLng(-29.71815, -53.71523));
-			linhaParadas.push(L.latLng(-29.71342, -53.71608));
-			linhaParadas.push(L.latLng(-29.70768, -53.71621));
-*/
-/*
-			var polyline = L.polyline(linhaParadas, {color: 'red'}).addTo(map);
-
-			for(var i=0 ; i < linhaParadas.length ; i++){
-				L.marker(linhaParadas[i]).addTo(map);
-			}
-*/
-			var popup = L.popup();
-			var PopUppoint =L.popup();
-			var latlng;
-			var markerStart=false;
-			var markerFinish=false;
-
-			map.on('click', onMapClick);
-
-			//var distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
-
-
-		</script>
-	</body>
+</body>
 </html>
