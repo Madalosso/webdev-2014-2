@@ -41,3 +41,34 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 	if (unit=="N") { dist = dist * 0.8684 }
 	return dist
 }                                                                           
+
+
+function onMapClick(e) {
+	PopUppoint
+		.setLatLng(e.latlng)
+		.setContent('<button onclick="defineStart()" id="pntStart" >Definir ponto inicial</button><button onclick="defineStop()" id="pntStop" >Definir ponto final</button>')
+		.addTo(map);
+	latlng=e.latlng;
+}
+
+function defineStart(){
+	document.getElementById("endereco_start").value=latlng.lat+" "+latlng.lng;
+	PopUppoint._close();
+	if(!markerStart){
+		markerStart = L.marker(latlng).addTo(map);
+	}else{
+		markerStart.setLatLng(latlng).update();
+	}
+}
+
+function defineStop(){
+	document.getElementById("endereco_finish").value=latlng.lat+" "+latlng.lng;
+	PopUppoint._close();
+	if(!markerFinish){
+		markerFinish = L.marker(latlng).addTo(map);
+	}else{
+		markerFinish.setLatLng(latlng).update();
+	}
+	//console.log(distance(markerFinish.getLatLng(),markerStart.getLatLng(),"K"));
+	//distancia = distance(-29.71815, -53.71523,-29.70686, -53.72052,"K");
+}
