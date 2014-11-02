@@ -195,7 +195,7 @@
 			var request={
 				origin:start,
 				destination:marcadoresBombeiros[indexParadaProxima].getPosition(),
-				travelMode: google.maps.TravelMode.DRIVING
+				travelMode: google.maps.TravelMode.WALKING
 			};
 			directionsServiceStart.route(request, function(result, status) {
 			    if (status == google.maps.DirectionsStatus.OK) {
@@ -216,7 +216,7 @@
 			var request2={
 				origin:marcadoresBombeiros[indexParadaDestino].getPosition(),
 				destination:end,
-				travelMode: google.maps.TravelMode.DRIVING
+				travelMode: google.maps.TravelMode.WALKING
 			};
 			directionsServiceEnd.route(request2, function(result, status) {
 			    if (status == google.maps.DirectionsStatus.OK) {
@@ -237,7 +237,11 @@
 </head>
 <body>
     <div id="header">
+    	<h1>O Maravilhoso Site Com a Rota dos Bombeiros</h1>
     </div>
+    <a href="./index.html"><div class="menu-item"><p class="menu-item-content">Inicio</p></div></a>
+	<a href="./sobre.html"><div class="menu-item"><p class="menu-item-content">Sobre</p></div></a>
+    <a href="./contato.html"><div class="menu-item"><p class="menu-item-content">Contato</p></div></a>
 	<div id="menu-left">
 		<div id="formulario">
 			<form>
@@ -259,6 +263,7 @@
 	</div>
 
 	<div id="footer">
+		<p id="foot-text">Trabalho 1 Desenvolvimento WEB 2014/2</p>
 	</div>
 
 </body>
