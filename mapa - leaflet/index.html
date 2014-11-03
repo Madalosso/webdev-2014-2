@@ -1,270 +1,295 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<title>WEB Dev 2014/2</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9owNUTqrxUPa4RaV0ycQYrAslGWSMPbo&sensor=false"></script>
-	<script src="main.js" type="text/javascript"></script>
-	<script>
-		var map,dialog;
-		var markTemp,markOrigem,markDestino;
-		var posTemp;
-		var geocoder;
-		var directionsServiceStart = new google.maps.DirectionsService();
-		var directionsDisplayStart = new google.maps.DirectionsRenderer();
-		var directionsServiceEnd = new google.maps.DirectionsService();
-		var directionsDisplayEnd = new google.maps.DirectionsRenderer();
-		var bombeiros = [];
-	  	var marcadoresBombeiros=[];
-		function initialize()
-		{
-			geocoder = new google.maps.Geocoder();
-			var posHouse = new google.maps.LatLng(-29.706822, -53.720390);
-			var mapProp = {
-			  center:new google.maps.LatLng(-29.706822, -53.720390),
-			  zoom:16,
-			  mapTypeId:google.maps.MapTypeId.ROADMAP
-			  };
-			map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-			google.maps.event.addListener(map, 'click', function(event) {
-			    addDialog(event.latLng);
-			  });
+	<head>
+		<title>EasyBus</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB9owNUTqrxUPa4RaV0ycQYrAslGWSMPbo&sensor=false"></script>
+		<script src="jquery-1.11.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="main.js" type="text/javascript"></script>
+		<script>
+			var map,dialog;
+			var markTemp,markOrigem,markDestino;
+			var posTemp;
+			var geocoder;
+			var directionsServiceStart = new google.maps.DirectionsService();
+			var directionsDisplayStart = new google.maps.DirectionsRenderer();
+			var directionsServiceEnd = new google.maps.DirectionsService();
+			var directionsDisplayEnd = new google.maps.DirectionsRenderer();
+			var bombeiros = [];
+			var marcadoresBombeiros=[];
+			function initialize()
+			{
+				geocoder = new google.maps.Geocoder();
+				var posHouse = new google.maps.LatLng(-29.706822, -53.720390);
+				var mapProp = {
+				  center:new google.maps.LatLng(-29.706822, -53.720390),
+				  zoom:16,
+				  mapTypeId:google.maps.MapTypeId.ROADMAP
+				  };
+				map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+				google.maps.event.addListener(map, 'click', function(event) {
+					addDialog(event.latLng);
+				  });
 
-			  dialog = new google.maps.InfoWindow({
-			    content:"<button id='btSource' onClick='setOrigem()'>Set Origin</button><button id='btDestino' onClick='setDestino()'>Set Destiny</button>"
-			  });
+				  dialog = new google.maps.InfoWindow({
+					content:"<button id='btSource' onClick='setOrigem()'>Set Origin</button><button id='btDestino' onClick='setDestino()'>Set Destiny</button>"
+				  });
 
-		  //adiciona lista de coordenadas aonde existem paradas
-			bombeiros.push(new google.maps.LatLng(-29.71908619710958, -53.71457862860552));
-			bombeiros.push(new google.maps.LatLng(-29.713552301601425, -53.716012001168565));
-			bombeiros.push(new google.maps.LatLng(-29.708669473569465, -53.716269493233995));
-			bombeiros.push(new google.maps.LatLng(-29.707141211427654, -53.71609783185704));
-			bombeiros.push(new google.maps.LatLng(-29.70524016996289, -53.71785736097081));
-			bombeiros.push(new google.maps.LatLng(-29.705034222155668, -53.720243454044976));
-			bombeiros.push(new google.maps.LatLng(-29.70516398824113, -53.722172498719374));
-			bombeiros.push(new google.maps.LatLng(-29.705238539621313, -53.72470986836561));
-			bombeiros.push(new google.maps.LatLng(-29.70561595513418, -53.73440873649088));
-			bombeiros.push(new google.maps.LatLng(-29.705984050379243, -53.739435196184786));
-			bombeiros.push(new google.maps.LatLng(-29.706804804771583, -53.74369669065345));
-			bombeiros.push(new google.maps.LatLng(-29.70736392963848, -53.74929714307655));
-			bombeiros.push(new google.maps.LatLng(-29.70769940306431, -53.75536966428626));
-			bombeiros.push(new google.maps.LatLng(-29.707755315192994, -53.75811624631751));
-			bombeiros.push(new google.maps.LatLng(-29.707811227290534, -53.763308997731656));
-			bombeiros.push(new google.maps.LatLng(-29.69001097068666, -53.80167531548068));
-			bombeiros.push(new google.maps.LatLng(-29.689936408005256, -53.80459355888888));
-			bombeiros.push(new google.maps.LatLng(-29.69159541458755, -53.807790752034634));
-			bombeiros.push(new google.maps.LatLng(-29.687009779059686, -53.81017255363986));
-			bombeiros.push(new google.maps.LatLng(-29.687457167346825, -53.812511439900845));
-			bombeiros.push(new google.maps.LatLng(-29.688649726991226, -53.81576442508958));
-			console.log(bombeiros.length);
+			  //adiciona lista de coordenadas aonde existem paradas
+				bombeiros.push(new google.maps.LatLng(-29.71908619710958, -53.71457862860552));
+				bombeiros.push(new google.maps.LatLng(-29.713552301601425, -53.716012001168565));
+				bombeiros.push(new google.maps.LatLng(-29.708669473569465, -53.716269493233995));
+				bombeiros.push(new google.maps.LatLng(-29.707141211427654, -53.71609783185704));
+				bombeiros.push(new google.maps.LatLng(-29.70524016996289, -53.71785736097081));
+				bombeiros.push(new google.maps.LatLng(-29.705034222155668, -53.720243454044976));
+				bombeiros.push(new google.maps.LatLng(-29.70516398824113, -53.722172498719374));
+				bombeiros.push(new google.maps.LatLng(-29.705238539621313, -53.72470986836561));
+				bombeiros.push(new google.maps.LatLng(-29.70561595513418, -53.73440873649088));
+				bombeiros.push(new google.maps.LatLng(-29.705984050379243, -53.739435196184786));
+				bombeiros.push(new google.maps.LatLng(-29.706804804771583, -53.74369669065345));
+				bombeiros.push(new google.maps.LatLng(-29.70736392963848, -53.74929714307655));
+				bombeiros.push(new google.maps.LatLng(-29.70769940306431, -53.75536966428626));
+				bombeiros.push(new google.maps.LatLng(-29.707755315192994, -53.75811624631751));
+				bombeiros.push(new google.maps.LatLng(-29.707811227290534, -53.763308997731656));
+				bombeiros.push(new google.maps.LatLng(-29.69001097068666, -53.80167531548068));
+				bombeiros.push(new google.maps.LatLng(-29.689936408005256, -53.80459355888888));
+				bombeiros.push(new google.maps.LatLng(-29.69159541458755, -53.807790752034634));
+				bombeiros.push(new google.maps.LatLng(-29.687009779059686, -53.81017255363986));
+				bombeiros.push(new google.maps.LatLng(-29.687457167346825, -53.812511439900845));
+				bombeiros.push(new google.maps.LatLng(-29.688649726991226, -53.81576442508958));
+				console.log(bombeiros.length);
 
-			//cria marcadores para as paradas existentes 
-			for(var i =0; i< bombeiros.length;i++){
-			  	marcadoresBombeiros.push(new google.maps.Marker({position:bombeiros[i]}));
-				marcadoresBombeiros[i].setMap(map);
+				//cria marcadores para as paradas existentes 
+				for(var i =0; i< bombeiros.length;i++){
+					marcadoresBombeiros.push(new google.maps.Marker({position:bombeiros[i]}));
+					marcadoresBombeiros[i].setMap(map);
+				}
+				  //desenha linha entre as paradas (precisa alterar para que sigam o caminho correto)
+				  /*var linhas = new google.maps.Polyline({
+					path:bombeiros,
+					geodesic:true,
+					strokeColor: '#FF0000',
+					strokeOpacity: 1.0,
+					strokeWeight: 2
+				  });
+				  linhas.setMap(map);*/
 			}
-			  //desenha linha entre as paradas (precisa alterar para que sigam o caminho correto)
-			  /*var linhas = new google.maps.Polyline({
-			  	path:bombeiros,
-				geodesic:true,
-				strokeColor: '#FF0000',
-			    strokeOpacity: 1.0,
-			    strokeWeight: 2
-			  });
-			  linhas.setMap(map);*/
-		}
 
-		function setOrigem(){
-			if(markOrigem==null){
-				markOrigem= new google.maps.Marker({position:posTemp,});
-			}else{
-				markOrigem.setPosition(posTemp);
+			function setOrigem(){
+				if(markOrigem==null){
+					markOrigem= new google.maps.Marker({position:posTemp,});
+				}else{
+					markOrigem.setPosition(posTemp);
+				}
+				markOrigem.setMap(map);
+				dialog.close();
+
+				geocoder.geocode({'latLng':posTemp}, function(results, status){
+					if(status == google.maps.GeocoderStatus.OK){
+						if(results[1]){
+							map.setZoom(16);
+							console.log("Endereco origem: "+results[1]);
+							console.log(results[1]);
+						}
+					}
+				});
 			}
-			markOrigem.setMap(map);
-			dialog.close();
 
-			geocoder.geocode({'latLng':posTemp}, function(results, status){
-				if(status == google.maps.GeocoderStatus.OK){
-					if(results[1]){
-						map.setZoom(16);
-						console.log("Endereco origem: "+results[1]);
-						console.log(results[1]);
+			function setDestino(){
+				if(markDestino==null){
+					markDestino= new google.maps.Marker({position:posTemp,});
+				}else{
+					markDestino.setPosition(posTemp);
+				}
+				markDestino.setMap(map);
+				dialog.close();
+
+
+				geocoder.geocode({'latLng':posTemp}, function(results, status){
+					if(status == google.maps.GeocoderStatus.OK){
+						if(results[1]){
+							map.setZoom(16);
+							console.log("Endereco Destino: "+results[1]);
+							console.log(results[1]);
+						}
+					}
+				});
+			}
+			function addDialog(pos){
+				console.log(pos);
+				if(markTemp==null){
+					markTemp= new google.maps.Marker({position:pos,});
+				}else{
+					markTemp.setPosition(pos);
+				}
+				dialog.open(map,markTemp);
+				markTemp.setMap(map);
+				posTemp = pos;
+				console.log("position: "+posTemp);
+			}
+
+			function displayInstruct(txt){
+				document.getElementById("text-inst").innerHTML += "<li> "+ txt+" <br>";
+			}
+
+			function findStop(pos){
+				console.log("TESTE "+pos);
+
+				var stopNear = [];
+				for(var i=0;i<bombeiros.length;i++){
+					if(distance(pos.lat(),pos.lng(),bombeiros[i].lat(),bombeiros[i].lng())<999){
+						console.log("Ta perto");
 					}
 				}
-			});
-		}
-
-		function setDestino(){
-			if(markDestino==null){
-				markDestino= new google.maps.Marker({position:posTemp,});
-			}else{
-				markDestino.setPosition(posTemp);
 			}
-			markDestino.setMap(map);
-			dialog.close();
+			function findRota(){
+				findStop(markOrigem.getPosition());
 
 
-			geocoder.geocode({'latLng':posTemp}, function(results, status){
-				if(status == google.maps.GeocoderStatus.OK){
-					if(results[1]){
-						map.setZoom(16);
-						console.log("Endereco Destino: "+results[1]);
-						console.log(results[1]);
+				//console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
+				var indexParadaProxima =-1;
+				var distanciaParadaProxima=9999;
+				for(var i =0; i<marcadoresBombeiros.length;i++){
+					var dist = distance(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),marcadoresBombeiros[i].getPosition().lat(),marcadoresBombeiros[i].getPosition().lng(),'k');
+					if(dist<distanciaParadaProxima){
+						distanciaParadaProxima=dist;
+						indexParadaProxima=i;
 					}
 				}
-			});
-		}
-		function addDialog(pos){
-			console.log(pos);
-			if(markTemp==null){
-				markTemp= new google.maps.Marker({position:pos,});
-			}else{
-				markTemp.setPosition(pos);
-			}
-			dialog.open(map,markTemp);
-			markTemp.setMap(map);
-			posTemp = pos;
-			console.log("position: "+posTemp);
-		}
-
-		function displayInstruct(txt){
-			document.getElementById("text-inst").innerHTML += "<li> "+ txt+" <br>";
-		}
-
-		function findStop(pos){
-			console.log("TESTE "+pos);
-
-			var stopNear = [];
-			for(var i=0;i<bombeiros.length;i++){
-				if(distance(pos.lat(),pos.lng(),bombeiros[i].lat(),bombeiros[i].lng())<999){
-					console.log("Ta perto");
+				if(indexParadaProxima==-1){
+					console.log("ERRO PARADA PROXIMA");
+					displayInstruct("ERRO PARADA PROXIMA D=");
 				}
-			}
-		}
-		function findRota(){
-			findStop(markOrigem.getPosition());
 
+				
 
-			//console.log("dentro do circulo? "+ inCircle(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),10,marcadoresBombeiros[0].getPosition().lat(),marcadoresBombeiros[0].getPosition().lng()));
-			var indexParadaProxima =-1;
-			var distanciaParadaProxima=9999;
-			for(var i =0; i<marcadoresBombeiros.length;i++){
-				var dist = distance(markOrigem.getPosition().lat(),markOrigem.getPosition().lng(),marcadoresBombeiros[i].getPosition().lat(),marcadoresBombeiros[i].getPosition().lng(),'k');
-				if(dist<distanciaParadaProxima){
-					distanciaParadaProxima=dist;
-					indexParadaProxima=i;
+				console.log("Vá para a parada index: "+ indexParadaProxima + ".Distancia= "+distanciaParadaProxima);
+				displayInstruct("Vá para a parada "+ indexParadaProxima + ".Distancia= "+distanciaParadaProxima.toFixed(2));
+				var distanciaParadaDestino=9999;
+				var indexParadaDestino=-1;
+				for(var i = 0 ; i < marcadoresBombeiros.length ; i++){
+					if (i == indexParadaProxima){continue;}
+					var dist = distance(markDestino.getPosition().lat(),markDestino.getPosition().lng(),marcadoresBombeiros[i].getPosition().lat(),marcadoresBombeiros[i].getPosition().lng(),'k');
+					if(dist<distanciaParadaDestino){
+						distanciaParadaDestino=dist;
+						indexParadaDestino=i;
+					}
 				}
+				console.log("embarque e pare na parada "+ indexParadaDestino + " você estará a "+ distanciaParadaDestino.toFixed(2)+ " kilometros do seu destino final");
+				displayInstruct("Embarque e pare na parada "+ indexParadaDestino + " você estará a "+distanciaParadaDestino.toFixed(2)+ " kilometros do seu destino final");
+
+				//desenha no mapa
+
+				var start =  markOrigem.getPosition();
+				var end = markDestino.getPosition();
+				//CHEGAR ATE A PARADA
+				directionsDisplayStart.setMap(map);
+				//var pontos = [];
+				//pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
+				/*for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
+					pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
+				}*/
+				//pontos.push({location:marcadoresBombeiros[indexParadaDestino].getPosition(),stopover:true});
+				var request={
+					origin:start,
+					destination:marcadoresBombeiros[indexParadaProxima].getPosition(),
+					travelMode: google.maps.TravelMode.WALKING
+				};
+				directionsServiceStart.route(request, function(result, status) {
+					if (status == google.maps.DirectionsStatus.OK) {
+					  directionsDisplayStart.setDirections(result);
+					  console.log(result.routes[0].legs[0].distance.text);
+					}else{
+						console.log("ERROR REQUISITAR GMAPS: "+status);
+						displayInstruct("ERROR REQUISITAR GMAPS: "+status);
+					}
+				});
+				//DA PARADA FINAL ATE O DESTINO FINAL
+				directionsDisplayEnd.setMap(map);
+				//pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
+				/*for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
+					pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
+				}*/
+				//pontos.push({location:marcadoresBombeiros[indexParadaDestino].getPosition(),stopover:true});
+				var request2={
+					origin:marcadoresBombeiros[indexParadaDestino].getPosition(),
+					destination:end,
+					travelMode: google.maps.TravelMode.WALKING
+				};
+				directionsServiceEnd.route(request2, function(result, status) {
+					if (status == google.maps.DirectionsStatus.OK) {
+					  directionsDisplayEnd.setDirections(result);
+					  console.log(result.routes[0].legs[0].distance.text);
+					}else{
+						console.log("ERROR REQUISITAR GMAPS: "+status);
+						displayInstruct("ERROR REQUISITAR GMAPS: "+status);
+					}
+				});
+
+				displayInstruct("--------------------");
 			}
-			if(indexParadaProxima==-1){
-				console.log("ERRO PARADA PROXIMA");
-				displayInstruct("ERRO PARADA PROXIMA D=");
-			}
-
-			
-
-			console.log("Vá para a parada index: "+ indexParadaProxima + ".Distancia= "+distanciaParadaProxima);
-			displayInstruct("Vá para a parada "+ indexParadaProxima + ".Distancia= "+distanciaParadaProxima.toFixed(2));
-			var distanciaParadaDestino=9999;
-			var indexParadaDestino=-1;
-			for(var i = 0 ; i < marcadoresBombeiros.length ; i++){
-				if (i == indexParadaProxima){continue;}
-				var dist = distance(markDestino.getPosition().lat(),markDestino.getPosition().lng(),marcadoresBombeiros[i].getPosition().lat(),marcadoresBombeiros[i].getPosition().lng(),'k');
-				if(dist<distanciaParadaDestino){
-					distanciaParadaDestino=dist;
-					indexParadaDestino=i;
-				}
-			}
-			console.log("embarque e pare na parada "+ indexParadaDestino + " você estará a "+ distanciaParadaDestino.toFixed(2)+ " kilometros do seu destino final");
-			displayInstruct("Embarque e pare na parada "+ indexParadaDestino + " você estará a "+distanciaParadaDestino.toFixed(2)+ " kilometros do seu destino final");
-
-			//desenha no mapa
-
-			var start =  markOrigem.getPosition();
-			var end = markDestino.getPosition();
-			//CHEGAR ATE A PARADA
-			directionsDisplayStart.setMap(map);
-			//var pontos = [];
-			//pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
-			/*for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
-				pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
-			}*/
-			//pontos.push({location:marcadoresBombeiros[indexParadaDestino].getPosition(),stopover:true});
-			var request={
-				origin:start,
-				destination:marcadoresBombeiros[indexParadaProxima].getPosition(),
-				travelMode: google.maps.TravelMode.WALKING
-			};
-			directionsServiceStart.route(request, function(result, status) {
-			    if (status == google.maps.DirectionsStatus.OK) {
-			      directionsDisplayStart.setDirections(result);
-			      console.log(result.routes[0].legs[0].distance.text);
-			    }else{
-			    	console.log("ERROR REQUISITAR GMAPS: "+status);
-			    	displayInstruct("ERROR REQUISITAR GMAPS: "+status);
-			    }
-	  		});
-			//DA PARADA FINAL ATE O DESTINO FINAL
-			directionsDisplayEnd.setMap(map);
-			//pontos.push({location:marcadoresBombeiros[indexParadaProxima].getPosition(),stopover:true});
-			/*for(var i = indexParadaProxima+1 ; i <= indexParadaDestino ;i++){//criar intervalo baseado no numero de paradas entre o inicio e o final para que não haja mais que 8 waypoints.
-				pontos.push({location:marcadoresBombeiros[i].getPosition(),stopover:true});
-			}*/
-			//pontos.push({location:marcadoresBombeiros[indexParadaDestino].getPosition(),stopover:true});
-			var request2={
-				origin:marcadoresBombeiros[indexParadaDestino].getPosition(),
-				destination:end,
-				travelMode: google.maps.TravelMode.WALKING
-			};
-			directionsServiceEnd.route(request2, function(result, status) {
-			    if (status == google.maps.DirectionsStatus.OK) {
-			      directionsDisplayEnd.setDirections(result);
-			      console.log(result.routes[0].legs[0].distance.text);
-			    }else{
-			    	console.log("ERROR REQUISITAR GMAPS: "+status);
-			    	displayInstruct("ERROR REQUISITAR GMAPS: "+status);
-			    }
-	  		});
-
-	  		displayInstruct("--------------------");
-		}
-		google.maps.event.addDomListener(window, 'load', initialize);
-	</script>
+			google.maps.event.addDomListener(window, 'load', initialize);
+		</script>
 
 
-</head>
-<body>
-    <div id="header">
-    	<h1>O Maravilhoso Site Com a Rota dos Bombeiros</h1>
-    </div>
-    <a href="./index.html"><div class="menu-item"><p class="menu-item-content">Inicio</p></div></a>
-	<a href="./sobre.html"><div class="menu-item"><p class="menu-item-content">Sobre</p></div></a>
-    <a href="./contato.html"><div class="menu-item"><p class="menu-item-content">Contato</p></div></a>
-	<div id="menu-left">
-		<div id="formulario">
-			<form>
-				<br>
-				<div class="formul"> Endereço Origem: <input type="text" id="endereco_start" name="origem"></div><br>
-				<div class="formul"> Endereço Destino: <input type="text" id="endereco_finish" name="destino"></div><br>
-			</form>
-			<button id="btCalc" style="margin-left:130px" onClick="findRota()">Calcular rota</button>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="./index.html"><strong>EasyBus</strong>&nbsp&nbsp<small>A sua melhor rota está aqui!</small></a>
+				</div>
+				<div class="collapse navbar-collapse" id="example-navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="./index.html">Início</a></li>
+						<li><a href="./sobre.html">Sobre</a></li>
+						<li><a href="./contato.html">Contato</a></li>
+					</ul>
+				</div>
+			</nav>
 		</div>
-		<div id="instrucoes">
-			<ul>
-				<p id="text-inst">
-			</ul>
+		
+		<div class="container-fluid">
+			<div id="menu-left">
+				<div id="formulario">
+					<form role="form">
+						<div class="form-group">
+							<br><br><br>
+							<label class="col-xs-8" for="address">Endereço Origem:</label>
+							<input style="margin-left: 5%;" class="col-xs-11" type="text" id="endereco_start" name="origem" placeholder="Clique no mapa para adicionar">
+							<label class="col-xs-8" for="address">Endereço Destino:</label>
+							<input style="margin-left: 5%;" class="col-xs-11" type="text" id="endereco_finish" name="destino" placeholder="Clique no mapa para adicionar">
+						</div>
+					</form>
+					<button style="margin-top: 5%; margin-left: 5%; margin-bottom: 5%; float: left" id="btCalc" class="btn btn-default" onClick="findRota()"><span class="glyphicon glyphicon-road"></span>&nbsp&nbsp<b>Calcular rota</b></button>
+				</div>
+				<div class="instrucoes">
+					<ul>
+						<p id="text-inst">
+					</ul>
+				</div>
+			</div>
 		</div>
-	</div>
+		
+		<div class="contain">
+			<div id="googleMap" style="width:100%;height:100%;"></div>
+		</div>
 
-	<div id="contain">
-		<div id="googleMap" style="width:100%;height:100%;"></div>
-	</div>
-
-	<div id="footer">
-		<p id="foot-text">Trabalho 1 Desenvolvimento WEB 2014/2</p>
-	</div>
-
-</body>
+		<div class="container-fluid">
+			<div class="footer">
+				<center><p>Copyright &copy; 2014 <a href="index.html">EasyBus</a></p></center>
+			</div>
+		</div>
+	</body>
 </html>
